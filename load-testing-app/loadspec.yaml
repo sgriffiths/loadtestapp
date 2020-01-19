@@ -1,0 +1,25 @@
+config:
+  execution:
+    -
+      scenario: SRE-loadtest
+  scenarios:
+    SRE-loadtest:
+      script: ../scripts/loadtest.jmx
+  modules:
+    blazemeter:
+      properties:
+        apihost: {{apihost}}
+        durationsec: {{durationsec}}
+        rampupsec: {{rampupsec}}
+        targetrps: {{targetrps}}
+        threads: {{threads}}
+  reporting:
+    -
+      criteria:
+        - "avg-rt of Values Endpoint>5000ms, stop as failed"
+      module: passfail
+    -
+      module: blazemeter
+  settings:
+    check-interval: 2s
+    default-executor: jmeter

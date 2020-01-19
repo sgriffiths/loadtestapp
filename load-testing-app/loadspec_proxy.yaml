@@ -1,0 +1,39 @@
+config:
+  execution:
+    -
+      scenario: SRE-loadtest
+  scenarios:
+    SRE-loadtest:
+      script: ../scripts/EBS_loadtesting.jmx
+  modules:
+    blazemeter:
+      properties:
+        apihost: {{apihost}}
+        durationsec: {{durationsec}}
+        rampupsec: {{rampupsec}}
+        targetrps: {{targetrps}}
+        threads: {{threads}}
+    # jmeter:
+    #   system-properties:
+    #     http.proxyHost: "https://proxy.com"
+    #     http.proxyPass:
+    #     http.proxyPort: 3128
+    #     http.proxyUser:
+    #     https.proxyHost: "https://proxy.com"
+    #     https.proxyPass:
+    #     https.proxyPort: 3128
+    #     https.proxyUser:
+  reporting:
+    -
+      criteria:
+        - "avg-rt of Values Endpoint>5000ms, stop as failed"
+      module: passfail
+    -
+      module: blazemeter
+  # settings:
+  #   check-interval: 2s
+  #   default-executor: jmeter
+  #    proxy:
+  #      address: https://proxy.com
+  #      password:
+  #      username:
